@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Contact.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhadhadi <hhadhadi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhadhadi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 16:29:47 by hhadhadi          #+#    #+#             */
-/*   Updated: 2024/10/24 12:41:45 by hhadhadi         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:33:50 by hhadhadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,17 +133,30 @@ bool isNumeric(std::string str)
     return true;
 }
 
+bool	isAlpha(std::string str)
+{
+	if (str[0] == ' ')
+		return false;
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if ((!isalpha(str[i]) && str[i] != ' ') || (str[i] == ' ' && str[i + 1] == ' '))
+			return false;
+
+	}
+	return true;
+}
+
 void	PhoneBook::addContact()
 {
 	Contact contact = saveContact();
 	if (contact.getFirstName().empty() || contact.getLastName().empty() \
 		|| contact.getNickName().empty() || contact.getPhoneNumber().empty() \
-		|| contact.getDarkestSecret().empty() || !isNumeric(contact.getPhoneNumber()))
+		|| contact.getDarkestSecret().empty() || !isNumeric(contact.getPhoneNumber())
+		|| !isAlpha(contact.getFirstName()) || !isAlpha(contact.getLastName()))
 	{
 		std::cout << "Can't save contact" << std::endl;
 		return ;
 	}
-
 	if (contactCount == 8)
 	{
 		static int i = 0;
@@ -192,7 +205,7 @@ std::string formatColumn(const std::string &text, size_t width) {
 
 void	PhoneBook::displayContacts()
 {
-	
+
 	std::cout << std::setw(10) << "Index"  << "|";
 	std::cout << std::setw(10) << "First Name" << "|";
 	std::cout << std::setw(10) << "Last Name" << "|";
